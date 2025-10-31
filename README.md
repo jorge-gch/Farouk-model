@@ -1,0 +1,1 @@
+# FAROUK MODEL
