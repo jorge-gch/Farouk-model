@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, request, jsonify
 from model.model import WordGraph
 
 app = Flask(__name__)
@@ -21,7 +21,8 @@ def home():
     wg.train(text)
 
     user_text = "estas"
-    return wg.predict_next(*user_text.split())
+    wg.predict_next(*user_text.split())
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
