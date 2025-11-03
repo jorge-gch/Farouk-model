@@ -24,5 +24,12 @@ def home():
     wg.predict_next(*user_text.split())
     return render_template('index.html')
 
+@app.route('/update_text', methods=['POST'])
+def update_text():
+    data = request.get_json()
+    text = data.get('text', '')
+    print(f"word: {text}")
+    return jsonify({'status': 'ok'})
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
