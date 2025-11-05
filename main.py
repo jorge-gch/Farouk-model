@@ -25,7 +25,7 @@ def update_text():
     user_text=text
     predict=wg.predict_next(*user_text.split())
     print(f"word: {text} - Predict: {predict}")
-    return jsonify({'status': 'ok'})
+    return jsonify({'data': predict})
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
