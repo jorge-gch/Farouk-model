@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 from flask import Flask, render_template, request, jsonify
 from model.model import WordGraph
 from model.getData import getData
