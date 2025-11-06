@@ -26,7 +26,8 @@ input.addEventListener('keyup', async () => {
                 button.textContent = suggestion;
                 button.className = 'px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 transition-colors duration-200 font-medium';
                 button.addEventListener('click', () => {
-                    input.value = suggestion;
+                    input.value += " "+suggestion[0].trim();
+                    input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
                     input.focus();
                 });
                 suggestionsDiv.appendChild(button);
