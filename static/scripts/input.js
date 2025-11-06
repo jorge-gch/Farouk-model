@@ -32,6 +32,10 @@ input.addEventListener('keyup', async () => {
                 });
                 suggestionsDiv.appendChild(button);
             });
+            const image = document.getElementById('image');
+            const date=new Date().getTime();
+            image.src = '/static/images/candidates_graph.png?t='+date;
+
         }
     } catch (error) {
         console.error('Error:', error);

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from model.model import WordGraph
 from model.getData import getData
-
+from model.draw.draw import draw_candidates_graph   
 app = Flask(__name__)
 
 # add the model
@@ -22,8 +22,10 @@ def update_text():
     data = request.get_json()
     text = data.get('text', '')
     # here, we are going to predict the word
+    
     user_text=text
     predict=wg.predict_next(*user_text.split())
+    draw_candidates_graph(predict,text)
     print(f"word: {text} - Predict: {predict}")
     return jsonify({'data': predict})
 
