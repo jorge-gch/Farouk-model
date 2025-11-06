@@ -1,11 +1,12 @@
 const input = document.getElementById('words');
 const slider = document.getElementById('suggestions');
-const suggestionsDiv = document.getElementById('suggestions');
+const suggestionsDiv = document.getElementById('suggestionstext');
 const inputRangeLabel = document.getElementById('inputrange');
 
 
 inputRangeLabel.textContent = `Numero de sugerencias: ${slider.value}`;
 slider.addEventListener('input', () => {
+    input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
     inputRangeLabel.textContent = `Numero de sugerencias: ${slider.value}`;
 });
 
