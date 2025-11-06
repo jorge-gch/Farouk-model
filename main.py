@@ -23,11 +23,12 @@ def home():
 def update_text():
     data = request.get_json()
     text = data.get('text', '')
+    number_of_suggestions = int(data.get('suggestions'))
     # here, we are going to predict the word
     
     user_text=text
     predict=wg.predict_next(*user_text.split())
-    draw_candidates_graph(predict,text)
+    draw_candidates_graph(predict,text,number_of_suggestions)
     print(f"word: {text} - Predict: {predict}")
     return jsonify({'data': predict})
 

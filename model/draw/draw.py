@@ -1,7 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-def draw_candidates_graph(candidates,context):
+def draw_candidates_graph(candidates,context,number_of_suggestions):
     if  context:
         G = nx.DiGraph()
         context_str = " ".join(context).lower()
@@ -11,7 +11,7 @@ def draw_candidates_graph(candidates,context):
         count = 0
         for word, weight in candidates:
             count += 1
-            if count < 23:
+            if count < number_of_suggestions+1:
                 if first:
                     G.add_node(f"{word}({weight})", color="red")
                     first = False

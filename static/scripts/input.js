@@ -1,5 +1,13 @@
 const input = document.getElementById('words');
+const slider = document.getElementById('suggestions');
 const suggestionsDiv = document.getElementById('suggestions');
+const inputRangeLabel = document.getElementById('inputrange');
+
+
+inputRangeLabel.textContent = `Numero de sugerencias: ${slider.value}`;
+slider.addEventListener('input', () => {
+    inputRangeLabel.textContent = `Numero de sugerencias: ${slider.value}`;
+});
 
 input.addEventListener('keyup', async () => {
     const text = input.value.trim();
@@ -14,7 +22,7 @@ input.addEventListener('keyup', async () => {
         const response = await fetch('/update_text', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text })
+            body: JSON.stringify({ text , "suggestions": slider.value})
         });
 
         const data = await response.json();
