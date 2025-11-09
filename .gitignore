@@ -1,4 +1,5 @@
 env/
+venv/
 **__init__.py
 **__pycache__
 
@@ -8,3 +9,4 @@ data/whatsapp/
 
 #ignore images
 static/images/candidates_graph.png
+

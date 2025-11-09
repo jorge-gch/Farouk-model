@@ -2,6 +2,7 @@ const input = document.getElementById('words');
 const slider = document.getElementById('suggestions');
 const suggestionsDiv = document.getElementById('suggestionstext');
 const inputRangeLabel = document.getElementById('inputrange');
+var predictions = {data: []};
 
 
 inputRangeLabel.textContent = `Numero de sugerencias: ${slider.value}`;
@@ -36,27 +37,9 @@ async function downloadPDF() {
     }
 }
 
-input.addEventListener('keyup', async () => {
-    const text = input.value.trim();
-
-    // avoid null messages
-    if (!text) {
-        suggestionsDiv.innerHTML = '';
-        return;
-    }
-
-    try {
-        const response = await fetch('/update_text', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text , "suggestions": slider.value})
-        });
-
-        const data = await response.json();
-        console.log('prediction:', data);
-        suggestionsDiv.innerHTML = '';
-        var count = 0;
-        if (data.data && Array.isArray(data.data)) {
+function fillSuggestions(data) {
+    var count = 0;
+    if (data.data && Array.isArray(data.data)) {
             data.data.forEach(suggestion => {
                 if (count < Number(slider.value)){
                     count = count+1;
@@ -64,7 +47,15 @@ input.addEventListener('keyup', async () => {
                     button.textContent = suggestion;
                     button.className = 'flex px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 transition-colors duration-200 font-medium';
                     button.addEventListener('click', () => {
-                        input.value += " "+suggestion[0].trim();
+                        if (input.value.endsWith(" ")) {
+                            input.value += " "+suggestion[0].trim();
+                        }else{
+                            const palabras = input.value.split(" ");
+                            palabras[palabras.length - 1] = suggestion[0].trim();
+                            input.value = palabras.join(" ");
+                            input.value += " ";
+                        }
+                        
                         input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
                         input.focus();
                     });
@@ -78,7 +69,60 @@ input.addEventListener('keyup', async () => {
             image.src = '/static/images/candidates_graph.png?t='+date;
 
         }
-    } catch (error) {
-        console.error('Error:', error);
+}
+
+input.addEventListener('keyup', async () => {
+    const text = input.value;
+    const espacioFinal = text.endsWith(" ");
+    console.log('Input text:', text);
+    // avoid null messages
+    if (!text) {
+        suggestionsDiv.innerHTML = '';
+        return;
     }
+    if (espacioFinal){
+
+        
+        try {
+            const response = await fetch('/update_text', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text , "suggestions": slider.value})
+            });
+
+            const data = await response.json();
+            console.log('prediction:', data);
+            predictions=data;
+            suggestionsDiv.innerHTML = '';
+            
+            fillSuggestions(data)
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    } else {
+        // 🟣 Caso: el usuario está escribiendo la última palabra (sin espacio al final)
+        suggestionsDiv.innerHTML = '';
+
+        // Extraer la última palabra incompleta
+        const palabras = text.split(" ");
+        const ultima = palabras[palabras.length - 1].toLowerCase();
+
+        // Evitar filtrar si no hay datos previos
+        if (!predictions || !predictions.data) return;
+
+        
+        // Filtrar las sugerencias que empiecen con esas letras usando forEach
+        let coincidencias = [];
+        console.log(predictions.data);
+        predictions.data.forEach(s => {
+            if (s[0].toLowerCase().startsWith(ultima)) {
+                coincidencias.push(s);
+            }
+        });
+
+        // Mostrar solo algunas sugerencias (ej. hasta el valor del slider)
+        const dataFiltrada = { data: coincidencias.slice(0, Number(slider.value)) };
+        fillSuggestions(dataFiltrada);
+
+            }
 });
