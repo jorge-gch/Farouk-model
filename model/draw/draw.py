@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 def draw_candidates_graph(candidates,context,number_of_suggestions):
     if  context:
         G = nx.DiGraph()
-        context_str = " ".join(context).lower()
+        context_str = "".join(context).lower()
         G.add_node(context_str, color="orange")
 
         first = True
@@ -39,5 +39,5 @@ def draw_candidates_graph(candidates,context,number_of_suggestions):
 
         plt.title(f"Candidatos para: '{context_str}'")
         plt.axis("off")
-        plt.savefig("static/images/candidates_graph.png")
+        plt.savefig("static/images/candidates_graph.png", transparent=True)
         plt.close()
