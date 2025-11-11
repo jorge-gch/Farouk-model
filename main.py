@@ -3,7 +3,7 @@ matplotlib.use('Agg')
 from flask import Flask, render_template, request, jsonify
 from model.model import WordGraph
 from model.getData import getData
-from model.draw.draw import draw_candidates_graph
+from model.draw.draw import draw_candidates_graph,draw_pdf
 from model.generate_pdf import image_to_pdf
 app = Flask(__name__)
 
@@ -22,7 +22,11 @@ def home():
 
 @app.route('/generate_PDF', methods=['POST'])
 def generate_PDF():
-    image_to_pdf("./static/images/candidates_graph.png","./static/images/pdf_graph.pdf")
+    data= request.get_json()
+    text = data.get('text', '')
+    number_of_suggestions = int(data.get('suggestions'))
+    draw_pdf(wg,text,number_of_suggestions)
+    image_to_pdf("./static/images/candidates_graph_pdf.png","./static/images/pdf_graph.pdf")
     return jsonify({'status': "ok"})
 
 @app.route('/update_text', methods=['POST'])
