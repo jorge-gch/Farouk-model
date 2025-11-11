@@ -5,6 +5,9 @@ from model.model import WordGraph
 from model.getData import getData
 from model.draw.draw import draw_candidates_graph,draw_pdf
 from model.generate_pdf import image_to_pdf
+from PIL import Image
+Image.MAX_IMAGE_PIXELS = None  # Desactiva la protección
+
 app = Flask(__name__)
 
 # add the model
@@ -24,8 +27,10 @@ def home():
 def generate_PDF():
     data= request.get_json()
     text = data.get('text', '')
+    quality = data.get('quality', True)
     number_of_suggestions = int(data.get('suggestions'))
-    draw_pdf(wg,text,number_of_suggestions)
+    print(f"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:{quality}")
+    draw_pdf(wg,text,number_of_suggestions,quality)
     image_to_pdf("./static/images/candidates_graph_pdf.png","./static/images/pdf_graph.pdf")
     return jsonify({'status': "ok"})
 

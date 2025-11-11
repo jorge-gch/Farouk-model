@@ -2,6 +2,7 @@ const input = document.getElementById('words');
 const slider = document.getElementById('suggestions');
 const suggestionsDiv = document.getElementById('suggestionstext');
 const inputRangeLabel = document.getElementById('inputrange');
+const resolutionCheckbox = document.getElementById('resolution');
 var predictions = {data: []};
 
 
@@ -15,13 +16,15 @@ async function downloadPDF() {
     console.log("imprimiendo");
 
     try {
+        var quality=resolutionCheckbox.checked;
         const text = input.value;
         const response = await fetch('/generate_PDF', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+                "quality": quality,
                 "suggestions": slider.value,
-                "text": text,
+                "text": text
             })
         });
 
@@ -113,18 +116,18 @@ input.addEventListener('keyup', async () => {
             console.error('Error:', error);
         }
     } else {
-        // 🟣 Caso: el usuario está escribiendo la última palabra (sin espacio al final)
+        
         suggestionsDiv.innerHTML = '';
 
-        // Extraer la última palabra incompleta
+        
         const palabras = text.split(" ");
         const ultima = palabras[palabras.length - 1].toLowerCase();
 
-        // Evitar filtrar si no hay datos previos
+        
         if (!predictions || !predictions.data) return;
 
         
-        // Filtrar las sugerencias que empiecen con esas letras usando forEach
+        
         let coincidencias = [];
         console.log(predictions.data);
         predictions.data.forEach(s => {
@@ -133,7 +136,7 @@ input.addEventListener('keyup', async () => {
             }
         });
 
-        // Mostrar solo algunas sugerencias (ej. hasta el valor del slider)
+        
         const dataFiltrada = { data: coincidencias.slice(0, Number(slider.value)) };
         fillSuggestions(dataFiltrada);
 

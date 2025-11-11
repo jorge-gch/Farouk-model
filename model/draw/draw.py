@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+from PIL import Image
 
 def draw_candidates_graph(candidates,context,number_of_suggestions):
     if  context:
@@ -46,7 +47,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import math
 
-def draw_pdf(wg, context, number_of_suggestions):
+def draw_pdf(wg, context, number_of_suggestions,quality):
     if not context:
         return
 
@@ -116,5 +117,5 @@ def draw_pdf(wg, context, number_of_suggestions):
     plt.title("Grafo completo de predicciones", fontsize=14, fontweight="bold")
     plt.axis("off")
     plt.tight_layout()
-    plt.savefig("static/images/candidates_graph_pdf.png", transparent=True, dpi=500)
+    plt.savefig("static/images/candidates_graph_pdf.png", transparent=True, dpi=150 if quality else 72)
     plt.close()
