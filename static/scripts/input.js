@@ -37,7 +37,19 @@ async function downloadPDF() {
     }
 }
 
+// autocomplete with tab
+input.addEventListener('keydown', function (event) {
+    if (event.key === 'Tab') {
+        const firstButton = suggestionsDiv.querySelector('button');
+        if (firstButton) {
+            event.preventDefault();
+            firstButton.click();
+        }
+    }
+});
+
 function fillSuggestions(data) {
+    suggestionsDiv.innerHTML = '';
     var count = 0;
     if (data.data && Array.isArray(data.data)) {
             data.data.forEach(suggestion => {
@@ -48,7 +60,7 @@ function fillSuggestions(data) {
                     button.className = 'flex px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 transition-colors duration-200 font-medium';
                     button.addEventListener('click', () => {
                         if (input.value.endsWith(" ")) {
-                            input.value += " "+suggestion[0].trim();
+                            input.value += suggestion[0].trim()+" ";
                         }else{
                             const palabras = input.value.split(" ");
                             palabras[palabras.length - 1] = suggestion[0].trim();
@@ -67,7 +79,6 @@ function fillSuggestions(data) {
             const image = document.getElementById('image');
             const date=new Date().getTime();
             image.src = '/static/images/candidates_graph.png?t='+date;
-
         }
 }
 
