@@ -25,7 +25,7 @@ def draw_candidates_graph(candidates,context,number_of_suggestions):
         pos = nx.spring_layout(G, seed=42)
 
         colors = [data["color"] for _, data in G.nodes(data=True)]
-        nx.draw_networkx_nodes(G, pos, node_color=colors, node_size=2000, alpha=0.9)
+        nx.draw_networkx_nodes(G, pos, node_color=colors, node_size=2000, alpha=0.9,linewidths=2, edgecolors='black')
         nx.draw_networkx_labels(G,pos,font_size=10,font_weight="bold")
         weights = [G[u][v]["weight"] for u, v in G.edges()]
         nx.draw_networkx_edges(

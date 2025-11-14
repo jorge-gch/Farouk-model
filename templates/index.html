@@ -5,42 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predictor de Palabras</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/icons/icon_farouk.svg') }}">
 </head>
-<body class="bg-gradient-to-br from-slate-50 to-[#2d4965] min-h-screen flex">
+<body class="bg-gradient-to-br from-slate-50 to-[#e55ed0] min-h-screen flex">
     <div class="w-1/2 flex items-center justify-center p-4">
         <div class="w-full max-w-2xl">
             <div class="bg-white rounded-2xl text-center shadow-xl p-6 mb-4">
-                <h4 class="text-2xl p-8 font-semibold" id="inputrange"></h4>
-                <input type="range" min="1" max="25" value="5" id="suggestions" class="w-full mb-4">
+                <div>
+                    <img src="{{ url_for('static', filename='images/icons/icon_farouk.svg') }}" class="mx-auto mb-4 w-40">
+                </div>
                 <input 
-                    type="text" 
-                    id="words" 
-                    placeholder="Empieza a escribir..."
-                    class="w-full px-4 py-3 text-lg border-2 border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-200"
-                >
+                        type="text" 
+                        id="words" 
+                        placeholder="Empieza a escribir..."
+                        class="w-full px-4 py-3 text-lg border-2 border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-200"
+                    >
             </div>
+
             <div class="bg-white rounded-2xl shadow-xl p-6">
                 <h2 class="text-sm font-semibold text-slate-600 mb-3 uppercase tracking-wide">Sugerencias</h2>
                 <div id="suggestionstext" class="flex flex-wrap gap-2">
                 </div>
             </div>
                 
-            <div class="flex bg-white rounded-2xl shadow-xl p-6 items-center justify-center mt-4">
-                <button onclick="downloadPDF()" class="flex duration-300 ease-in-out bg-red-500 p-2 text-lg text-white border-red-600 border-b-4 hover:bg-red-400 hover:border-red-500 rounded-lg">
-                    <div class="flex w-5 h-5 mt-[4px] mr-2"><img src="{{ url_for('static', filename='images/icons/pdf-icon.png') }}"></img></div>Descargar en pdf
-                </button>
-                <div class="flex ml-6 items-center">
-                <label title="Bajar resolución para PDF" class="flex items-center cursor-pointer relative p-2 flex duration-300 ease-in-out bg-gray-500 p-2 text-lg text-white border-gray-600 border-b-4 hover:bg-gray-400 hover:border-gray-500 rounded-lg">
-                    <input id="resolution" defaultChecked type="checkbox" class="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800" id="check-custom-style" />
-                    <span class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                    </svg>
-                    </span>
-                    
-                </label>
+            <div class="block bg-white rounded-2xl shadow-xl p-6 mt-4">
+                <div class="flex items-center justify-center">
+                    <button onclick="downloadPDF()" class="flex duration-300 ease-in-out bg-red-500 p-2 text-lg text-white border-red-600 border-b-4 hover:bg-red-400 hover:border-red-500 rounded-lg">
+                        <div class="flex w-5 h-5 mt-[4px] mr-2"><img src="{{ url_for('static', filename='images/icons/pdf-icon.png') }}"></img></div>Descargar en pdf
+                    </button>
+                    <div class="flex ml-6 items-center">
+                    <label title="Subir resolución para PDF" class="flex items-center cursor-pointer relative p-2 flex duration-300 ease-in-out bg-gray-500 p-2 text-lg text-white border-gray-600 border-b-4 hover:bg-gray-400 hover:border-gray-500 rounded-lg">
+                        <input id="resolution" defaultChecked type="checkbox" class="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800" id="check-custom-style" />
+                        <span class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        </span>
+                        
+                    </label>
+                    </div>
                 </div>
+                
 
+                <div class="bg-white rounded-2xl shadow-xl p-2 mt-4">
+                    <h4 class="text-lg p-2 font-semibold" id="inputrange"></h4>
+                    <div class="px-2">
+                        <div class="relative mb-2">
+                            <label for="labels-range-input" class="sr-only">Valores</label>
+                            <input type="range" min="1" max="25" value="5" id="suggestions" class="w-full">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
