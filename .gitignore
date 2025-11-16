@@ -4,9 +4,9 @@ venv/
 **__pycache__
 
 # ignore all data ( you need to improve the model with your own data )
-
 data/whatsapp/
 
 #ignore images
 static/images/candidates_graph.png
-
+static/images/candidates_graph_pdf.png
+static/images/pdf_graph.pdf

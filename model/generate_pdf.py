@@ -14,4 +14,3 @@ def image_to_pdf(image_path, pdf_path):
     c.drawImage(image, 0, 0, width=width_pt, height=height_pt)
     c.showPage()
     c.save()
-    print(f"download in: {pdf_path}")

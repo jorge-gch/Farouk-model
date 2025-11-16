@@ -29,7 +29,6 @@ def generate_PDF():
     text = data.get('text', '')
     quality = data.get('quality', True)
     number_of_suggestions = int(data.get('suggestions'))
-    print(f"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:{quality}")
     draw_pdf(wg,text,number_of_suggestions,quality)
     image_to_pdf("./static/images/candidates_graph_pdf.png","./static/images/pdf_graph.pdf")
     return jsonify({'status': "ok"})
@@ -44,7 +43,6 @@ def update_text():
     user_text=text
     predict=wg.predict_next(*user_text.split())
     draw_candidates_graph(predict,text,number_of_suggestions)
-    print(f"word: {text} - Predict: {predict}")
     return jsonify({'data': predict})
 
 if __name__ == '__main__':

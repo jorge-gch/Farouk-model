@@ -13,8 +13,6 @@ slider.addEventListener('input', () => {
 });
 
 async function downloadPDF() {
-    console.log("imprimiendo");
-
     try {
         var quality=resolutionCheckbox.checked;
         const text = input.value;
@@ -29,7 +27,6 @@ async function downloadPDF() {
         });
 
         const data = await response.json();
-        console.log("Respuesta:", data);
         const link = document.createElement('a');
         const url = "/static/images/pdf_graph.pdf";
         link.href = url;
@@ -90,7 +87,6 @@ function fillSuggestions(data) {
 input.addEventListener('keyup', async () => {
     const text = input.value;
     const espacioFinal = text.endsWith(" ");
-    console.log('Input text:', text);
     // avoid null messages
     if (!text) {
         suggestionsDiv.innerHTML = '';
@@ -98,7 +94,6 @@ input.addEventListener('keyup', async () => {
     }
     if (espacioFinal){
 
-        
         try {
             const response = await fetch('/update_text', {
                 method: 'POST',
@@ -126,8 +121,6 @@ input.addEventListener('keyup', async () => {
         
         if (!predictions || !predictions.data) return;
 
-        
-        
         let coincidencias = [];
         console.log(predictions.data);
         predictions.data.forEach(s => {
@@ -136,7 +129,6 @@ input.addEventListener('keyup', async () => {
             }
         });
 
-        
         const dataFiltrada = { data: coincidencias.slice(0, Number(slider.value)) };
         fillSuggestions(dataFiltrada);
 

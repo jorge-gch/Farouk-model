@@ -1,6 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-from PIL import Image
+import math
 
 def draw_candidates_graph(candidates,context,number_of_suggestions):
     if  context:
@@ -43,10 +43,6 @@ def draw_candidates_graph(candidates,context,number_of_suggestions):
         plt.savefig("static/images/candidates_graph.png", transparent=True)
         plt.close()
 
-import networkx as nx
-import matplotlib.pyplot as plt
-import math
-
 def draw_pdf(wg, context, number_of_suggestions,quality):
     if not context:
         return
@@ -65,7 +61,7 @@ def draw_pdf(wg, context, number_of_suggestions,quality):
         try:
             predictions = wg.predict_next(word)
         except Exception as e:
-            print(f"Error al predecir '{word}': {e}")
+            print(f"Error in '{word}': {e}")
             continue
 
         first = True
