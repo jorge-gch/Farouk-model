@@ -1,6 +1,6 @@
-<p align="center">
+<div align="center">
   <img src="static/images/icons/icon_farouk.svg" alt="farouk icon" style="max-width: 200px; width: 100%;">
-</p>
+</div>
 
 # FAROUK MODEL
 
