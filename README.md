@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="static/images/icons/icon_farouk.svg" alt="farouk icon" style="max-width: 200px; width: 100%;">
+  <img src="static/images/icons/icon_farouk.svg" alt="farouk icon" style="width: 180px;">
 </div>
 
 # FAROUK MODEL
